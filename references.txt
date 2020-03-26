@@ -1,1 +1,9 @@
-temp
+Website: https://learnxinyminutes.com/docs/smalltalk/
+
+Rerferance: https://wiki.squeak.org/squeak/uploads/SqueakLanguageRef.3.html#Syntax and https://www.gnu.org/software/smalltalk/manual-base/gst-base.html
+
+Community: https://squeak.org/. This appears to be an entire community about this language in specific, including an abundance of projects built around it
+
+Project: From the same place, https://squeak.org/projects/ , in specific I'm chosing https://github.com/fniephaus/BroBreakout
+
+Interpretor: Squeak, as above.

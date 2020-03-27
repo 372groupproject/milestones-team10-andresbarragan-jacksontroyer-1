@@ -1,1 +1,1 @@
-myArray := #(1 2 3).myArray do:[:num |    Transcript show: 'square root of '.    Transcript show: num.    Transcript show: ' is '.    Transcript show: num sqrt.    Transcript cr.].
+myArray := #(1 2 3 4 5 6 7 8 9 10).myArray do: [:x |    sqrtX := x raisedTo: 1/2.	Transcript show: 'square root of ', x printString, ' is ', sqrtX printString; cr.]

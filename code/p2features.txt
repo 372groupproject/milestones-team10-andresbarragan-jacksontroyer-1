@@ -1,0 +1,42 @@
+"These statements inside quotations are comments"
+"As a note, these programs will not run on their own. I couldn't figure out, after even a day of reading, how to make individual little programs run on their own. The makefile hasn't been updated either. Instead just take these as examples of these"
+
+"If statements"
+a < b
+  ifTrue: [^'a is less than b']
+  ifFalse: [^'a is greater than or equal to b']
+
+"For loop/list iteration"
+1 to: 20 do: [:x | x printNl ]
+
+"While statements"
+i := 10
+[i < 10] whileTrue:[ 
+ Transcript show: ((i) asString) ; cr. 
+ i:=i-1. 
+].
+
+"Larger program, a big guessing game"
+
+Transcript show: 'Im thinking of a random number between 1 and 100, can you guess it?'.
+
+rand := Random new.
+rand := (rand nextValue) * 100.
+rand := rand asInteger.
+
+input := FileSelectionBrowser open asFilename readStream.
+guess := input next.
+guess := data asInteger.
+
+whileTrue:[
+ guess == rand ifTrue[
+  Transcript show: 'Correct'.
+  ]
+ guess > rand ifTrue[
+  Transcript show: 'Too big'.
+ ] ifFalse [
+  Transcript show: 'Too small'.
+  ]
+ guess := input next.
+ guess := data asInteger.
+]

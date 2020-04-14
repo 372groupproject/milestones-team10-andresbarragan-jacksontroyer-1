@@ -1,0 +1,9 @@
+Transcript show: 'Display Character: ', $a printString; cr.
+Transcript show: 'Display Character: ', $A printString; cr.
+Transcript show: 'Display Character: ', $% printString; cr.
+Transcript show: 'Display Character: ', $$ printString; cr.
+Transcript show: 'Can check if $a isDigit: ', ($a isDigit) printString; cr.
+Transcript show: 'Can check if $a isLetter: ', ($a isLetter) printString; cr.
+Transcript show: 'Can check if $4 isLetter: ', ($4 isLetter) printString; cr.
+Transcript show: 'Can uppercase a letter, $a asUppercase: ', ($a asUppercase) printString; cr.
+Transcript show: 'Can lowercase a letter, $A asLowercase: ', ($A asLowercase) printString; cr.

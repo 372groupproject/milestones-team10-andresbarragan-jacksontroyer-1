@@ -9,7 +9,7 @@ Character.Text:
     Shows how characters are used and prints them
     
 Numbers.Text:
-    Shows all the examples of Numbers that were presented in the paper and examples of adding/subtracting them
+    Shows all the examples of Numbers that were presented in the paper and many examples of them in use them
 
 dict.text
     An example of a dictionary, show the ability to access elements from keys and print the dictionary

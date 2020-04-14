@@ -9,6 +9,7 @@ Character.Text:
     Shows how characters are used and prints them
     Shows isDigit, checks if character is a digit
     Shows isLetter, checks if a character is a letter
+    Shows asUppercase and asLowercase: transforms characters to either uppercase or lower case based on which one is called.
     
 Numbers.Text:
     Shows all the examples of Numbers that were presented in the paper and many examples of them in use them

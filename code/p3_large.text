@@ -1,0 +1,11 @@
+"And a bigger thing"
+
+
+Transcript show: 'Enter a degrees: '.
+
+far := (stdin nextLine) asNumber.
+
+cel := (far - 32).
+cel = (cel / 1.8).
+
+Transcript show: 'In Celsius is: ', cel printString; cr.

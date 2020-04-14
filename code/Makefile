@@ -5,14 +5,14 @@ all:
 	
 	gst HelloWorld.text
 	
-	gst Numbers.text
+	gst p3_Numbers.text
 	
-	gst Character.text
+	gst p3_Character.text
 	
-	gst dict.text
+	gst p3_dict.text
 	
-	gst sortedCollect.text
+	gst p3_sortedCollect.text
 	
-	gst orderedCollect.text
+	gst p3_orderedCollect.text
 	
-	gst string.text
+	gst p3_string.text

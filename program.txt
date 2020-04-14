@@ -1,0 +1,10 @@
+Our program will implement a text based game
+We expect the program to have;
+ -A object-oriented design
+ -Approximately 10 different rooms
+ -One boss
+ -5 different items
+ -3 different types of items
+We expect the program to have approximately 500 lines
+This program is a good illustration because the object-oriented approach
+would showcase the language.

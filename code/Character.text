@@ -1,1 +1,1 @@
-Transcript show: 'Display Character: ', $a printString; cr.Transcript show: 'Display Character: ', $A printString; cr.Transcript show: 'Display Character: ', $% printString; cr.Transcript show: 'Display Character: ', $$ printString.
+Transcript show: 'Display Character: ', $a printString; cr.Transcript show: 'Display Character: ', $A printString; cr.Transcript show: 'Display Character: ', $% printString; cr.Transcript show: 'Display Character: ', $$ printString; cr.

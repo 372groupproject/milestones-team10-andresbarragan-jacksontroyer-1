@@ -1,0 +1,4 @@
+sortedCollect := #(4 3 5 2 1) asSortedCollection: [:a :b | a >= b].
+
+Transcript show: 'Adding 4 3 5 2 1 to sortedCollect'; cr.
+Transcript show: 'sortedCollect = ', (sortedCollect) printString; cr.

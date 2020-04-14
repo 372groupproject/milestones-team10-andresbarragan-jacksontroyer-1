@@ -1,0 +1,9 @@
+y := Dictionary new.
+y at: 'Key1' put: 69.
+y at: 'Key2' put: 21.
+y at: 1 put: 'NumberOne'.
+y at: 2 put: 'NumberTwo'.
+
+Transcript show: 'y at: 1 = ', (y at: 1) printString; cr.
+Transcript show: 'y at: Key1 = ', (y at: 'Key1') printString; cr.
+Transcript show: 'y = ', (y) printString; cr.

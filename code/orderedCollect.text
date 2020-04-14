@@ -1,0 +1,8 @@
+orderedCollect := #('One' 'Two') asOrderedCollection.
+
+Transcript show: 'orderedCollect at: 1 = ', (orderedCollect at: 1) printString; cr.
+Transcript show: 'orderedCollect at: 1 = ', (orderedCollect at: 2) printString; cr.
+Transcript show: 'orderedCollect = ', (orderedCollect) printString; cr.
+Transcript show: 'Adding three'; cr.
+orderedCollect add: 'Three'.
+Transcript show: 'orderedCollect = ', (orderedCollect) printString; cr.

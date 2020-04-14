@@ -14,3 +14,5 @@ all:
 	gst sortedCollect.text
 	
 	gst orderedCollect.text
+	
+	gst string.text

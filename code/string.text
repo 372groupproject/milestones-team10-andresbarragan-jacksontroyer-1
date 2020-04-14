@@ -1,0 +1,3 @@
+Transcript show: 'Can check if string has a letter, Bob includes: $e ', ('Bob' includes: $e) printString; cr.
+Transcript show: 'Can check if string has a letter, Bob includes: $B ', ('Bob' includes: $B) printString; cr.
+Transcript show: 'You can reverse a string, Hello reverse: ', ('Hello' reverse) printString; cr.

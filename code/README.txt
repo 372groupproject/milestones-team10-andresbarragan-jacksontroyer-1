@@ -13,6 +13,11 @@ Character.Text:
     
 Numbers.Text:
     Shows all the examples of Numbers that were presented in the paper and many examples of them in use them
+    Shows module
+    Shows getting sign of a number
+    Shows truncation
+    Shows checking if a number if odd or even
+    Shows subtraction and addition on many different forms of numbers
 
 dict.text
     An example of a dictionary, show the ability to access elements from keys and print the dictionary
@@ -23,3 +28,6 @@ sortedCollect.text
 orderedCollect.text
     Shows an ordered collection. Starts with elements 'One' and 'Two, access elements and than adds element 'Three'.
     Prints the array before and after adding element 'Three'
+
+string.text
+    Shows the ability to check if a character is in a string and how to reverse a string.

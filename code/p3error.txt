@@ -1,0 +1,20 @@
+"There are no compile time errors at all in smalltalk, as variables are untyped. This has the standard affect of making the language more flexible but also much harder to bug pick"
+
+"Run type errors still work when the 'types' of items doesn't work. Like so"
+
+x := 3.
+y := "hello".
+z := x + y.
+
+
+"And a bigger thing"
+Transcript show: 'Enter a degrees'.
+
+input := FileSelectionBrowser open asFilename readStream.
+in := input next.
+far := data asInteger.
+
+cel := far - 32.
+cel = cel / 1.8.
+
+Transcript show: cel.

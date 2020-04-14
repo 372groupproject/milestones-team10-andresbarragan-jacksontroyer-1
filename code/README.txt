@@ -32,4 +32,6 @@ p3_orderedCollect.text
 p3_string.text
     Shows the ability to check if a character is in a string and how to reverse a string.
 
-errorAndLargerTypes.txt: This is the second part of the milestone three code snippets. Since the first program is intetionally designed to throw an error and not compile, the two have been left inside of one file. The second shows types, and in particular displaying an integer as a string
+p3_error.txt: This is the second part of the milestone three code snippets. Intetionally designed to throw an error and not compile, the two have been left inside of one file.
+
+p3_large.text: This is the last part of milestone 3 snippets. In converts from fahrenheit to celsius. Gets the fahrenheit from user input.

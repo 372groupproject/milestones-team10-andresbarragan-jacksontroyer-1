@@ -7,6 +7,8 @@ squareRootOfList.Text:
 
 Character.Text:
     Shows how characters are used and prints them
+    Shows isDigit, checks if character is a digit
+    Shows isLetter, checks if a character is a letter
     
 Numbers.Text:
     Shows all the examples of Numbers that were presented in the paper and many examples of them in use them

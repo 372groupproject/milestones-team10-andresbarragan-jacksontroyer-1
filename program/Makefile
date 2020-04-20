@@ -1,4 +1,4 @@
 SHELL := /bin/bash
 
 all:
-	gst dungeonTextGame
+	gst dungeonTextGame.text

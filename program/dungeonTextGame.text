@@ -1,0 +1,189 @@
+"A class for the stat"
+Object subclass: Stat [
+
+	| strength health speed |
+
+	<comment: 'This class is used for the stat of a floor or player'>
+
+	"Sets strength"
+	setStrength: aStrength [
+		strength := aStrength.
+	]
+
+	getStrength [
+		^strength.
+	]
+	
+	"Sets health"
+	setHealth: aHealth [
+		health := aHealth.
+	]
+
+	getHealth [
+		^health.
+	]
+	
+	"Sets speed"
+	setSpeed: aSpeed [
+		speed := aSpeed.
+	]
+
+	getSpeed [
+		^speed.
+	]
+
+	"Prints stat for the user to see what stat they have"
+	introduceYourself [
+		Transcript show: 'stat - ', strength printString, ' strength : ', health printString, ' health : ', speed printString, ' speed'; cr.
+	]
+
+	"Used to compare the player to a floor"
+	>= aStat [
+		^((strength >= aStat getStrength) & (health >= aStat getHealth) & (speed >= aStat getSpeed))
+	]
+	
+	"Used to add to stat"
+	addStat: aStat [
+		strength := (strength + (aStat getStrength)).
+		health := (health + (aStat getHealth)).
+		speed := (speed + (aStat getSpeed)).
+	]
+
+]
+
+"A class for the floor"
+Object subclass: Floor [
+
+	| floorStat floorMessage dungeonCleared fightOrNot |
+
+	<comment: 'This class is used for the floors in the dungeon'>
+
+	"Initiliazes the floor"
+	initFloor: aStat [ 
+		floorStat := Stat new.
+		floorStat setStrength: (aStat getStrength).
+		floorStat setHealth: (aStat getHealth).
+		floorStat setSpeed: (aStat getSpeed).
+		dungeonCleared := False.
+	]
+	
+	setAsBattle: isFight [
+		fightOrNot := isFight.
+	]
+	
+	isBattle [
+		^fightOrNot.
+	]
+	
+	"Gets the stat of the floor, uses to check if player can beat it"
+	getStat [
+		^floorStat.
+	]
+	
+	"Sets a unique message for this floor"
+	setMessage: aMEssage [ 
+		floorMessage := aMEssage.
+	]
+	
+	"Gets the unique message of the particular floor"
+	getMessage [
+		^floorMessage.
+	]
+	
+	"Used to clear the floor, will not be called if dungeon is cleared"
+	clearFloor: aPlayer [
+		Transcript show: floorMessage; cr.
+		
+		((aPlayer getStat) >= floorStat)
+			ifTrue: [
+				Transcript show: 'Floor cleared'; cr.
+				(fightOrNot == True) 
+					ifTrue: [Transcript show: 'Found potions, updating stats'; cr].
+				dungeonCleared := True.
+				^True.
+			]
+			ifFalse: [
+				Transcript show: 'Floor failed, running away'; cr.
+				^False.
+			].
+		
+	]
+	
+	"Gets the status of the floor"
+	isCleared [
+		^dungeonCleared.
+	]
+	
+]
+
+"A class for the player"
+Object subclass: Player [
+
+	| playerStat |
+
+	<comment: 'This class is used for the player'>
+	
+	"Initiliazes the player"
+	initPlayer: aStat [ 
+		playerStat := Stat new.
+		playerStat setStrength: (aStat getStrength).
+		playerStat setHealth: (aStat getHealth).
+		playerStat setSpeed: (aStat getSpeed).
+	]
+	
+	"Gets the player stat, used so we could increase it"
+	getStat [
+		^playerStat.
+	]
+	
+	"Adds to player stat"
+	updateStat: aStat [
+		playerStat addStat: aStat
+	]
+
+]
+
+"Creating floors to test if creation works"
+floor1 := Floor new.
+floor1 setAsBattle: True.
+floor1 setMessage: '---Entering floor1 AHAHAHA, a goblin!!!---'.
+floor2 := Floor new.
+floor2 setAsBattle: False.
+floor2 setMessage: '---Potion room, awesome!---'.
+
+"Creating a player to test"
+player := Player new.
+
+"Using stat class to test, inits the first floor"
+stat := Stat new.
+stat setStrength: 10.
+stat setHealth: 10.
+stat setSpeed: 10.
+Transcript show: 'Floor1(Battle room) stats:'; cr. 
+floor1 initFloor: stat.
+(floor1 getStat) introduceYourself.
+
+"Inits the second floor"
+stat setHealth: 5.
+Transcript show: 'Floor2(Non-battle room) stats:'; cr. 
+floor2 initFloor: stat.
+(floor2 getStat) introduceYourself.
+
+"Inits the player and introduced the stats for the player"
+player initPlayer: stat.
+Transcript show: 'Initial player stats:'; cr. 
+(player getStat) introduceYourself.
+
+"Checking dungeon clearing"
+(floor1 isCleared == False)
+	ifTrue: [((floor1 isBattle == False) & ((floor1 clearFloor: player) == True))
+		ifTrue: [(player getStat) addStat: (floor1 getStat)].
+	].
+(floor2 isCleared == False)
+	ifTrue: [((floor2 isBattle == False) & ((floor2 clearFloor: player) == True))
+		ifTrue: [(player getStat) addStat: (floor2 getStat)].
+	].
+
+"Prints the stats of the player after the adding of floor"
+Transcript show: 'After entering floor1 and floor2, player stats:'; cr. 
+(player getStat) introduceYourself.

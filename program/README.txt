@@ -20,21 +20,21 @@ Play gets an option to either go up, down, left or right to switch rooms
 When the player enters a room they get an initial text saying if they found a potion that boost the stats
 Map is hardcoded for potions and monsters
 
-        Items
-Health Potion (Adds to start health)
-Strength Potion (Adds to start strength)
-Speed Potion (Adds to start speed)
+Items-
+    Health Potion (Adds to start health)
+    Strength Potion (Adds to start strength)
+    Speed Potion (Adds to start speed)
 
-        Classes:
-            Paladin
-                Start Health = 5
-                Start Strength = 2
-                Start Speed = 1
-            Warrior
-                Start Health = 2
-                Start Strength = 5
-                Start Speed = 1
-            Hunter
-                Start Health = 1
-                Start Strength = 2
-                Start Speed = 5
+Classes-
+        Paladin
+            Start Health = 5
+            Start Strength = 2
+            Start Speed = 1
+        Warrior
+            Start Health = 2
+            Start Strength = 5
+            Start Speed = 1
+        Hunter
+            Start Health = 1
+            Start Strength = 2
+            Start Speed = 5

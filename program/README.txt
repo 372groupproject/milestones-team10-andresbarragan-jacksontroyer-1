@@ -1,6 +1,6 @@
 Object Oriented
 
-Going to be an object oriented text based game for the project.
+Object oriented text based game for the project.
 
 Simple Text Game [Pick up items, uses power level and monsters]
 https://www2.cs.arizona.edu/classes/cs210/fall17/assignments/a12.pdf

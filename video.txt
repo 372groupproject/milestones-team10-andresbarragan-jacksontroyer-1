@@ -1,0 +1,9 @@
+We're thinking of keeping things fairly basic, mostly by necessity. Access to recording equipment, and even worse editing equipment, is pretty limited around here, so we sort of have to
+
+Brief intro explaining the history, there isn't much interesting to talk about here that we could find
+
+Can go a bit more in depth on the actual structure, just because most of the class is going to be naturally familiar with OOP languages
+
+Demo the game by just playing through it, or at least showing a snapshot, whole game will likely to longer then 5 minutes to play, though not by much
+
+Recorded zoom video seems the easiest way to do it, and maybe some very basic editing so it doesn't have to be in one take

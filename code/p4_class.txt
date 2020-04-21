@@ -1,0 +1,55 @@
+Object subclass: Line [
+    x1 := 0.
+    y1 := 0.
+    x2 := 0.
+    y2 := 0.
+    
+    Line class >> setx1: number [
+        <category: 'accessing'>
+        x1 := number.
+    ]
+    
+    Line class >> setx2: number [
+        <category: 'accessing'>
+        x2 := number.
+    ]
+    
+    Line class >> sety1: number [
+        <category: 'accessing'>
+        y1 := number.
+    ]
+    
+    Line class >> sety2: number [
+        <category: 'accessing'>
+        y2 := number.
+    ]
+    
+    Line class >> sety2: number [
+        <category: 'accessing'>
+        y2 := number.
+    ]
+    
+    Line class >> getLength [
+        <category: 'accessing'>
+        | a b c|
+        a := x1 - x2 abs.
+        b := y1 - y2 abs.
+        c := ((a * a) + (b * b)) raisedTo: 0.5.
+        ^c
+    ]
+]
+
+
+
+Object subclass: Triangle [
+    
+    Triangle class >> getPerimeter: line1 line2 lin3 [
+        <category: 'accessing'>
+        | total |
+        total := 0.
+        total := total + line1 getLength.
+        total := total + line2 getLength.
+        total := total + line3 getLength.
+        ^total
+    ]
+]

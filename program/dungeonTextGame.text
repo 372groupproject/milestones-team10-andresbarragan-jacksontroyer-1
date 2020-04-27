@@ -33,7 +33,7 @@ Object subclass: Stat [
 	]
 
 	"Prints stat for the user to see what stat they have"
-	introduceYourself [
+	printStat [
 		Transcript show: 'stat - ', strength printString, ' strength : ', health printString, ' health : ', speed printString, ' speed'; cr.
 	]
 
@@ -54,25 +54,34 @@ Object subclass: Stat [
 "A class for the floor"
 Object subclass: Floor [
 
-	| floorStat floorMessage dungeonCleared fightOrNot |
+	| floorStat dungeonCleared fightOrNot floorIsBoss |
 
 	<comment: 'This class is used for the floors in the dungeon'>
 
 	"Initiliazes the floor"
-	initFloor: aStat [ 
+	initFloor [ 
 		floorStat := Stat new.
-		floorStat setStrength: (aStat getStrength).
-		floorStat setHealth: (aStat getHealth).
-		floorStat setSpeed: (aStat getSpeed).
-		dungeonCleared := False.
+		dungeonCleared := 0.
 	]
 	
 	setAsBattle: isFight [
 		fightOrNot := isFight.
 	]
 	
+	setIfBoss: bossBool [
+		floorIsBoss := bossBool.
+	]
+	
+	setCleared [
+		dungeonCleared := 1.
+	]
+	
 	isBattle [
 		^fightOrNot.
+	]
+	
+	isBoss [
+		^floorIsBoss.
 	]
 	
 	"Gets the stat of the floor, uses to check if player can beat it"
@@ -80,33 +89,28 @@ Object subclass: Floor [
 		^floorStat.
 	]
 	
-	"Sets a unique message for this floor"
-	setMessage: aMEssage [ 
-		floorMessage := aMEssage.
-	]
-	
-	"Gets the unique message of the particular floor"
-	getMessage [
-		^floorMessage.
-	]
-	
 	"Used to clear the floor, will not be called if dungeon is cleared"
 	clearFloor: aPlayer [
-		Transcript show: floorMessage; cr.
 		
-		((aPlayer getStat) >= floorStat)
+		"Transcript show: fightOrNot printString; cr."
+		(fightOrNot == 1)
 			ifTrue: [
-				Transcript show: 'Floor cleared'; cr.
-				(fightOrNot == True) 
-					ifTrue: [Transcript show: 'Found potions, updating stats'; cr].
-				dungeonCleared := True.
-				^True.
-			]
-			ifFalse: [
-				Transcript show: 'Floor failed, running away'; cr.
-				^False.
+				((aPlayer getStat) >= floorStat)
+					ifTrue: [
+						Transcript show: 'Monster battled, floor cleared'; cr.
+						self setCleared.
+						^1.
+					]
+					ifFalse: [
+						Transcript show: 'Floor failed, running away'; cr.
+						^0.
+					].
+			]ifFalse: [
+				Transcript show: 'Found potions, updating stats'; cr.
+				(aPlayer getStat) addStat: floorStat.
+				self setCleared.
+				^1.
 			].
-		
 	]
 	
 	"Gets the status of the floor"
@@ -119,16 +123,40 @@ Object subclass: Floor [
 "A class for the player"
 Object subclass: Player [
 
-	| playerStat |
+	| playerStat playerClass |
 
 	<comment: 'This class is used for the player'>
 	
 	"Initiliazes the player"
-	initPlayer: aStat [ 
-		playerStat := Stat new.
-		playerStat setStrength: (aStat getStrength).
-		playerStat setHealth: (aStat getHealth).
-		playerStat setSpeed: (aStat getSpeed).
+	"type is 1, 2 or 3"
+	initPlayer: type [
+	
+	    playerStat := Stat new.
+		playerClass := type.
+		
+		"Init states for paladin"
+		(type = 'paladin')
+			ifTrue: [
+				playerStat setHealth: 5.
+				playerStat setStrength: 2.
+				playerStat setSpeed: 1.
+			].
+			
+		"Init stats for warrior"	
+		(type = 'warrior')
+			ifTrue: [
+				playerStat setHealth: 2.
+				playerStat setStrength: 5.
+				playerStat setSpeed: 1.
+			].
+			
+		"Init states for hunter"
+		(type = 'hunter')
+			ifTrue: [
+				playerStat setHealth: 1.
+				playerStat setStrength: 2.
+				playerStat setSpeed: 5.
+			].
 	]
 	
 	"Gets the player stat, used so we could increase it"
@@ -140,50 +168,187 @@ Object subclass: Player [
 	updateStat: aStat [
 		playerStat addStat: aStat
 	]
+	
+	printPlayer [
+		Transcript show: playerClass asUppercase, ': '.
+		playerStat printStat.
+	]
+	
 
 ]
 
-"Creating floors to test if creation works"
-floor1 := Floor new.
-floor1 setAsBattle: True.
-floor1 setMessage: '---Entering floor1 AHAHAHA, a goblin!!!---'.
-floor2 := Floor new.
-floor2 setAsBattle: False.
-floor2 setMessage: '---Potion room, awesome!---'.
+"Holds functions for the gameplay"
+Object subclass: Gameplay [
 
-"Creating a player to test"
-player := Player new.
+    | player floors floorX floorY gameComplete maxY maxX |
+	
+	initFloors [
 
-"Using stat class to test, inits the first floor"
-stat := Stat new.
-stat setStrength: 10.
-stat setHealth: 10.
-stat setSpeed: 10.
-Transcript show: 'Floor1(Battle room) stats:'; cr. 
-floor1 initFloor: stat.
-(floor1 getStat) introduceYourself.
+		"Creates the hardcodes values for the floors"
+		|strFloor staFloor dexFloor isBattleFloor|
+		strFloor := #(0 0 0 0 0   0 5 0 5 0   5 5 0 5 0   10 0 10 0 0   10 0 10 0 0   5 20 0 5 20   25 0 30 0 25).
+		staFloor := #(0 0 0 0 0   0 0 0 0 5   0 0 5 0 5   10 0 5 5 0   10 0 15 0 5   0 20 5 0 20   20 0 30 5 25).
+		dexFloor := #(0 0 0 0 0   5 0 5 0 0   0 0 0 0 0   10 5 0 10 5   15 5 10 5 0   0 15 0 0 20   25 5 30 0 20).
+		isBattleFloor := #(0 0 0 0 0   1 0 0 0 0   0 1 1 0 0   1 0 0 1 0   1 0 1 0 0   0 1 0 0 1   1 0 1 0 1).
+		
+		"Creates the 2D array for floors"
+		floors := (Array new: 7).
 
-"Inits the second floor"
-stat setHealth: 5.
-Transcript show: 'Floor2(Non-battle room) stats:'; cr. 
-floor2 initFloor: stat.
-(floor2 getStat) introduceYourself.
+		"Initiliazes floors without values"
+		1 to: 7 do: [ :a |
+			floors at: a put: (Array new: 7).
+			1 to: 5 do: [ :b | 
+				(floors at: a) at: b put: Floor new.
+				((floors at: a) at: b) initFloor.
+			].
+		].
+		
+		"For some reason I had to move it to a new a loop"
+		"Just initializes the floors with the floor value"
+		1 to: 7 do: [ :a |
+			1 to: 5 do: [ :b |
+			
+				"Setting all the values for the floors"
+				((floors at: a) at: b) setAsBattle: (isBattleFloor at: (b + ((a - 1) * 5))).
+				(((floors at: a) at: b) getStat) setHealth: (staFloor at: (b + ((a - 1) * 5))).
+				(((floors at: a) at: b) getStat) setStrength: (strFloor at: (b + ((a - 1) * 5))).
+				(((floors at: a) at: b) getStat) setSpeed: (dexFloor at: (b + ((a - 1) * 5))).
+				
+				"Clear the first floor of the dungeon"
+				(((b + ((a - 1) * 5))) == 3)
+					ifTrue: [((floors at: a) at: b) setCleared].
+				
+				"This is the boss floor value"
+				(((b + ((a - 1) * 5))) == 33)
+					ifTrue: [((floors at: a) at: b) setIfBoss: 1]
+					ifFalse: [((floors at: a) at: b) setIfBoss: 0].
+			].
+		].
+		
+		"Inits the player position and if the game is beated"
+		floorX := 3.
+		floorY := 1.
+		maxY := 7.
+		maxX := 5.
+		gameComplete := 0.
+		
+	]
 
-"Inits the player and introduced the stats for the player"
-player initPlayer: stat.
-Transcript show: 'Initial player stats:'; cr. 
-(player getStat) introduceYourself.
+    "Start message for the game"
+    gameStartMessage
+    [
+        Transcript show: 'Chaos is spreading, go kill the demon king before it is to late!!!'; cr.
+    ]
+	
+	"Allows you to pick your character type"
+	pickCharacter
+	[
+	   | playerType |
+       
+	   Transcript show: 'Choose your class(Paladin, Warrior, Hunter): '.
+	   playerType := stdin nextLine.
 
-"Checking dungeon clearing"
-(floor1 isCleared == False)
-	ifTrue: [((floor1 isBattle == False) & ((floor1 clearFloor: player) == True))
-		ifTrue: [(player getStat) addStat: (floor1 getStat)].
-	].
-(floor2 isCleared == False)
-	ifTrue: [((floor2 isBattle == False) & ((floor2 clearFloor: player) == True))
-		ifTrue: [(player getStat) addStat: (floor2 getStat)].
-	].
+	   playerType :=  playerType asLowercase.
 
-"Prints the stats of the player after the adding of floor"
-Transcript show: 'After entering floor1 and floor2, player stats:'; cr. 
-(player getStat) introduceYourself.
+       player := Player new.
+	   
+	   "Sets player type based on input from user"
+	   playerType = 'paladin' ifTrue: [player initPlayer: playerType].
+	   
+	   playerType = 'warrior' ifTrue: [player initPlayer: playerType].
+	   
+	   playerType = 'hunter' ifTrue: [player initPlayer: playerType].
+	   
+	   ((playerType = 'paladin') | (playerType = 'warrior') | (playerType = 'hunter')) 
+	       ifFalse: [self pickCharacter].
+	]
+	
+	
+	playGame [
+
+	   | direction tempFloor ogFloorX ogFloorY successfulMove|
+       
+	   "Just prints information about player"
+	   (player printPlayer).
+	   Transcript show: 'On floor (', floorX printString, ',', floorY printString, ')'; cr.
+	   
+	   "Code for getting input from user for floor moving"
+	   Transcript show: 'Pick direction(up, down, right, left): '.
+	   direction := stdin nextLine.
+
+		ogFloorX := floorX.
+		ogFloorY := floorY.
+
+	   direction :=  direction asLowercase.
+	   successfulMove := 0.
+	   
+	   "Gets the direction and moves"
+	   direction = 'up' ifTrue: [
+		((floorY + 1) > maxY)
+			ifTrue:  [Transcript show: 'To far up'; cr.]
+			ifFalse: [floorY := floorY + 1. successfulMove := 1.].
+	   ].
+	   
+	   direction = 'down' ifTrue: [
+		((floorY - 1) < 1)
+			ifTrue:  [Transcript show: 'To far down'; cr.]
+			ifFalse: [floorY := floorY - 1. successfulMove := 1.].
+	   ].
+	   
+	   direction = 'right' ifTrue: [
+		((floorX + 1) > maxX)
+			ifTrue:  [Transcript show: 'To far right'; cr.]
+			ifFalse: [floorX := floorX + 1. successfulMove := 1.].
+	   ].
+	   
+	   direction = 'left' ifTrue: [
+		((floorX - 1) < 1)
+			ifTrue:  [Transcript show: 'To far left'; cr.]
+			ifFalse: [floorX := floorX - 1. successfulMove := 1.].
+	   ].
+	   
+	   ( successfulMove == 1 )
+			ifTrue: [
+				"Prints what floor player is on and stores floor as temporary"
+			   tempFloor := ((floors at: floorY) at: floorX).
+			   
+			   "Information about floor that player moved to"
+			   ((tempFloor isBattle) == 1)
+					ifTrue:  [(tempFloor getStat) printStat]
+					ifFalse: [Transcript show: 'POTION ROOM'; cr.].
+			   
+			   "Code for moving around the dungeon"
+			   (tempFloor isCleared == 0)
+					ifTrue: [
+						((tempFloor clearFloor: player) == 1)
+							ifFalse: [
+								floorX := ogFloorX.
+								floorY := ogFloorY.
+							].
+					] ifFalse: [
+						Transcript show: 'Already been to this floor'; cr.
+					].
+				
+				"Complets the game if the floor was the boss floor and if it got cleared"
+				(((tempFloor isBoss) == 1) & ((tempFloor isCleared) == 1))
+					ifTrue: [gameComplete := 1].
+				
+			   (gameComplete == 1)
+					ifTrue:  [Transcript show: 'Demon king has been defeated'; cr.]
+					ifFalse: [self playGame]. "Recursion for playing until game is complete"
+			]
+			ifFalse: [
+				self playGame.
+			].
+	   
+	]
+]
+
+Eval [
+    "Create an object for gameplay and prints start message"
+    gameplay := Gameplay new.
+	gameplay gameStartMessage.
+	gameplay pickCharacter.
+	gameplay initFloors.
+	gameplay playGame.
+]
